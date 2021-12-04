@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CV19", "CV19\CV19.csproj", "{5B3B0E3B-0CBD-4D44-9ABA-A9B31AC199F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CV19", "CV19\CV19.csproj", "{5B3B0E3B-0CBD-4D44-9ABA-A9B31AC199F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{433839F8-3049-469C-928B-295D357B8C5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CV19Console", "Tests\CV19Console\CV19Console.csproj", "{9E4141C1-B42D-4161-AB87-7EB7DBA9C7D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{5B3B0E3B-0CBD-4D44-9ABA-A9B31AC199F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B3B0E3B-0CBD-4D44-9ABA-A9B31AC199F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B3B0E3B-0CBD-4D44-9ABA-A9B31AC199F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E4141C1-B42D-4161-AB87-7EB7DBA9C7D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E4141C1-B42D-4161-AB87-7EB7DBA9C7D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E4141C1-B42D-4161-AB87-7EB7DBA9C7D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E4141C1-B42D-4161-AB87-7EB7DBA9C7D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E4141C1-B42D-4161-AB87-7EB7DBA9C7D4} = {433839F8-3049-469C-928B-295D357B8C5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8C33BCF-2F89-4A67-B540-E1A6C914CA27}
