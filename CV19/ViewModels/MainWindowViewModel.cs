@@ -10,7 +10,7 @@ namespace CV19.ViewModels
         #region Заголовок окна
 
         private string _Title = "Анализ статистики CV19";
-            /// <summary>Заголовок окна</summary>
+        /// <summary>Заголовок окна</summary>
         public string Titel
         {
             get => _Title;
