@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using CV19.Infrastructure.Commands;
-using CV19.Models;
 using CV19.Models.Decanat;
 using CV19.ViewModels.Base;
+using OxyPlot;
+using DataPoint = CV19.Models.DataPoint;
 
 namespace CV19.ViewModels
 {
@@ -43,15 +46,72 @@ namespace CV19.ViewModels
         public Group SelectedGroup
         {
             get => _SelectedGroup;
-            set => Set(ref _SelectedGroup, value);
+            set
+            {
+                if (!Set(ref _SelectedGroup, value)) return;
+
+                _SelectedGroupStudents.Source = value?.Students;
+                OnPropertyChanged(nameof(SelectedGroupStudents));
+            }
         }
+
+        #endregion
+
+        #region StudentFilterText : string - Текст фильтра студентов
+
+        /// <summary>Текст фильтра студентов</summary>
+        private string _StudentFilterText;
+
+        /// <summary>Текст фильтра студентов</summary>
+        public string StudentFilterText
+        {
+            get => _StudentFilterText;
+            set
+            {
+                if(!Set(ref _StudentFilterText, value)) return;
+                _SelectedGroupStudents.View.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region SelectedGroupStudents
+
+        private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
+
+        private void OnStudentFilted(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Student student))
+            {
+                e.Accepted = false;
+                return;
+            }
+            var filter_text = _StudentFilterText;
+            if(string.IsNullOrWhiteSpace(filter_text))
+                return;
+
+            if (student.Name is null || student.Surname is null || student.Patronymic is null)
+            {
+                e.Accepted = false;
+                return;
+            }
+
+            if(student.Name.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Surname.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Patronymic.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+
+            e.Accepted = false;
+
+        }
+
+        public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
 
         #endregion
 
         #region SelectedPageIndex : int - Номер выбранной вкладки
 
         /// <summary>Номер выбранной вкладки</summary>
-        private int _SelectedPageIndex;
+        private int _SelectedPageIndex = 1;
 
         /// <summary>Номер выбранной вкладки</summary>
         public int SelectedPageIndex
@@ -104,6 +164,30 @@ namespace CV19.ViewModels
         {
             get => _Status;
             set => Set(ref _Status, value);
+        }
+
+        #endregion
+
+        public IEnumerable<Student> TestStudents =>
+            Enumerable.Range(1, App.IsDesignMode ? 10 : 100_000)
+                .Select(i => new Student
+                {
+                    Name = $"Имя {i}",
+                    Surname = $"Фамилия {i}"
+                });
+
+        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
+
+        #region SelectedDirectory : DirectoryViewModel - Выбранная директория
+
+        /// <summary>Выбранная директория</summary>
+        private DirectoryViewModel _SelectedDirectory;
+
+        /// <summary>Выбранная директория</summary>
+        public DirectoryViewModel SelectedDirectory
+        {
+            get => _SelectedDirectory;
+            set => Set(ref _SelectedDirectory, value);
         }
 
         #endregion
@@ -164,7 +248,7 @@ namespace CV19.ViewModels
             var group_index = Groups.IndexOf(group);
             Groups.Remove(group);
             if (group_index < Groups.Count)
-                SelectedGroup = Groups[group_index]; 
+                SelectedGroup = Groups[group_index];
         }
 
         #endregion
@@ -183,9 +267,9 @@ namespace CV19.ViewModels
             ChangeTabIndexCommand =
                 new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
 
-            CreateGroupCommand = 
+            CreateGroupCommand =
                 new LambdaCommand(OnCreateGroupCommandExecuted, CanCreateGroupCommandExecute);
-            DeleteGroupCommand = 
+            DeleteGroupCommand =
                  new LambdaCommand(OnDeleteGroupCommandExecuted, CanDeleteGroupCommandExecute);
             #endregion
 
@@ -225,7 +309,14 @@ namespace CV19.ViewModels
             data_list.Add(group);
             data_list.Add(group.Students[0]);
             CompositeCollection = data_list.ToArray();
+
+            _SelectedGroupStudents.Filter += OnStudentFilted;
+
+            //_SelectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+            //_SelectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
         }
+
+        
         /*-------------------------------------------------------------------------------------------------------------*/
     }
 }
