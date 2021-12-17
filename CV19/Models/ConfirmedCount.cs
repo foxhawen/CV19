@@ -2,9 +2,9 @@
 
 namespace CV19.Models
 {
-    internal struct ComfirmedCount
+    internal struct ConfirmedCount
     {
-        public DateTime Data { get; set; }
+        public DateTime Date { get; set; }
         public int Count { get; set; }
     }
 }

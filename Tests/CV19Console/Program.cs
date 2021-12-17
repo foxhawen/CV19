@@ -60,7 +60,7 @@ namespace CV19Console
         {
             // var web_client = new WebClient();
 
-            var client = new HttpClient();
+            //var client = new HttpClient();
 
             //var items = new string[10];
 
