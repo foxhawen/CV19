@@ -19,6 +19,10 @@ namespace CV19.ViewModels
     {
         /*-------------------------------------------------------------------------------------------------------------*/
 
+        private readonly CountriesStatisticViewModel _CountriesStatistic;
+
+        /*-------------------------------------------------------------------------------------------------------------*/
+
         #region SelectedGroup : Group - Выбранная группа
 
         /// <summary>Выбранная группа</summary>
@@ -195,6 +199,8 @@ namespace CV19.ViewModels
 
         public MainWindowViewModel()
         {
+            _CountriesStatistic = new CountriesStatisticViewModel(this);
+
             #region Команды
 
             CloseAplicationCommand =
