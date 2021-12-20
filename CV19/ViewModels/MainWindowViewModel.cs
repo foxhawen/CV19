@@ -19,30 +19,9 @@ namespace CV19.ViewModels
     {
         /*-------------------------------------------------------------------------------------------------------------*/
 
-        private readonly CountriesStatisticViewModel _CountriesStatistic;
+        public CountriesStatisticViewModel CountriesStatistic { get; }
 
-        /*-------------------------------------------------------------------------------------------------------------*/
-
-        #region SelectedGroup : Group - Выбранная группа
-
-        /// <summary>Выбранная группа</summary>
-        private Group _SelectedGroup;
-
-        /// <summary>Выбранная группа</summary>
-        public Group SelectedGroup
-        {
-            get => _SelectedGroup;
-            set
-            {
-                if (!Set(ref _SelectedGroup, value)) return;
-
-                _SelectedGroupStudents.Source = value?.Students;
-                OnPropertyChanged(nameof(SelectedGroupStudents));
-            }
-        }
-
-        #endregion
-
+        
         #region StudentFilterText : string - Текст фильтра студентов
 
         /// <summary>Текст фильтра студентов</summary>
@@ -162,7 +141,6 @@ namespace CV19.ViewModels
                     Surname = $"Фамилия {i}"
                 });
 
-        
         /*-------------------------------------------------------------------------------------------------------------*/
 
         #region Команды
@@ -199,7 +177,7 @@ namespace CV19.ViewModels
 
         public MainWindowViewModel()
         {
-            _CountriesStatistic = new CountriesStatisticViewModel(this);
+            CountriesStatistic = new CountriesStatisticViewModel(this);
 
             #region Команды
 

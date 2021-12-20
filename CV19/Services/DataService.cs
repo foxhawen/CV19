@@ -34,9 +34,9 @@ namespace CV19.Services
             {
                 var line = data_reader.ReadLine();
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                yield return line
-                    .Replace("Korea,", "Korea -")
-                    .Replace("Bonaire,", "Bonaire -"); ;
+                if (line.Contains('"'))
+                    line = line.Insert(line.IndexOf(',', line.IndexOf('"')) + 1, " -").Remove(line.IndexOf(',', line.IndexOf('"')), 1);
+                yield return line;
             }
         }
 
@@ -57,8 +57,8 @@ namespace CV19.Services
             {
                 var province = row[0].Trim();
                 var country_name = row[1].Trim(' ', '"');
-                var latitude = double.Parse(row[2]);
-                var longitude = double.Parse(row[3]);
+                var latitude = row[2] == String.Empty ? 0 : double.Parse(row[2], CultureInfo.InvariantCulture);
+                var longitude = row[3] == String.Empty ? 0 : double.Parse(row[3], CultureInfo.InvariantCulture);
                 var counts = row.Skip(4).Select(int.Parse).ToArray();
 
                 yield return (province, country_name, (latitude, longitude), counts);
