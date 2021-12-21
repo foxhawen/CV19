@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using CV19.Services;
 
 namespace CV19
@@ -12,7 +13,6 @@ namespace CV19
         {
             IsDesignMode = false;
             base.OnStartup(e);
-
         }
     }
 }
