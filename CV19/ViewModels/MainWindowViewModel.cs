@@ -86,12 +86,12 @@ namespace CV19.ViewModels
 
         #endregion
 
-        #region TestDataPoints : IEnumerable<DataPoint> - Тестовый набор донных для визуализации графиков
+        #region TestDataPoints : IEnumerable<DataPoint> - Тестовый набор данных для визуализации графиков
 
-        /// <summary>Тестовый набор донных для визуализации графиков</summary>
+        /// <summary>Тестовый набор данных для визуализации графиков</summary>
         private IEnumerable<DataPoint> _TestDataPoints;
 
-        /// <summary>Тестовый набор донных для визуализации графиков</summary>
+        /// <summary>Тестовый набор данных для визуализации графиков</summary>
         public IEnumerable<DataPoint> TestDataPoints
         {
             get => _TestDataPoints;

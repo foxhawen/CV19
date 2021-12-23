@@ -67,7 +67,7 @@ namespace CV19.ViewModels
                 .Select(i => new CountryInfo
                 {
                     Name = $"Country {i}",
-                    ProvinceCounts = Enumerable.Range(1, 10).Select(J => new PlaceInfo
+                    Provinces = Enumerable.Range(1, 10).Select(J => new PlaceInfo
                     {
                         Name = $"Province{i}",
                         Location = new Point(i, J),
