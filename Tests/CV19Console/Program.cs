@@ -29,7 +29,7 @@ namespace CV19Console
             {
                 var line = data_reader.ReadLine();
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                yield return line.Replace("Korea,","Korea -");
+                yield return line.Replace("Korea,","Korea -").Replace("Bonaire,", "Bonaire -"); 
             }
         }
 
@@ -60,7 +60,7 @@ namespace CV19Console
         {
             // var web_client = new WebClient();
 
-            var client = new HttpClient();
+            //var client = new HttpClient();
 
             //var items = new string[10];
 
