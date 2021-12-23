@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using CV19.Infrastructure.Commands;
 using CV19.Models.Decanat;
 using CV19.ViewModels.Base;
-using OxyPlot;
 using DataPoint = CV19.Models.DataPoint;
 
 namespace CV19.ViewModels
 {
+    [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     internal class MainWindowViewModel : ViewModel
     {
         /*-------------------------------------------------------------------------------------------------------------*/
@@ -152,7 +151,8 @@ namespace CV19.ViewModels
         private bool CanCloseAplicationCommandExecute(object p) => true;
         public void OnCloseAplicationCommandExecuted(object p)
         {
-            Application.Current.Shutdown();
+            (RootObject as Window)?.Close();
+            //Application.Current.Shutdown();
         }
 
         #endregion
