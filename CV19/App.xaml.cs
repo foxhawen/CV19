@@ -2,6 +2,9 @@
 using System.Windows;
 using System.Windows.Media;
 using CV19.Services;
+using CV19.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace CV19
 {
@@ -13,6 +16,12 @@ namespace CV19
         {
             IsDesignMode = false;
             base.OnStartup(e);
+        }
+
+        public static void ConfigureCervices(HostBuilderContext host, IServiceCollection services)
+        {
+            services.AddSingleton<DataService>();
+            services.AddSingleton<CountriesStatisticViewModel>();
         }
     }
 }
