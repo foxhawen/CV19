@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using CV19.Services;
@@ -15,7 +17,7 @@ namespace CV19
 
         private static IHost _Host;
 
-        public static IHost Host => _Host ??= Program.CreatHostBuilder(Environment.GetCommandLineArgs()).Build();
+        public static IHost Host => _Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -41,5 +43,11 @@ namespace CV19
             services.AddSingleton<DataService>();
             services.AddSingleton<CountriesStatisticViewModel>();
         }
+
+        public static string CurrentDirectory => IsDesignMode 
+            ? Path.GetDirectoryName(GetSourceCodePath())
+            : Environment.CurrentDirectory;
+
+        private static string GetSourceCodePath([CallerFilePath] string Path = null) => Path;
     }
 }
