@@ -14,7 +14,7 @@
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:system="clr-namespace:System;assembly=System.Runtime.Extensions"
         Title="{Binding Titel}"
-        DataContext="{vm:MainWindowViewModel}"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Height="450" Width="800">
     <Window.InputBindings>
         <KeyBinding Modifiers="Control" Key="Q" Command="{Binding CloseAplicationCommand}"/>

@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -41,6 +41,8 @@ namespace CV19
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<DataService>();
+
+            services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<CountriesStatisticViewModel>();
         }
 
