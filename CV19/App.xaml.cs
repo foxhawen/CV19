@@ -40,7 +40,7 @@ namespace CV19
         }
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
-        { 
+        {
             services.AddSingleton<IDataService, DataService>();
             //services.AddTransient<IDataService, DataService>();
             //services.AddScoped<IDataService, DataService>();
