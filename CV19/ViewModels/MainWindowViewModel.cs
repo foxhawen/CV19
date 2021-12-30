@@ -133,6 +133,20 @@ namespace CV19.ViewModels
 
         #endregion
 
+        #region FueCount : double - Колличество непонятно чего
+
+        /// <summary>Колличество непонятно чего</summary>
+        private double _FueCount;
+
+        /// <summary>Колличество непонятно чего</summary>
+        public double FueCount
+        {
+            get => _FueCount;
+            set => Set(ref _FueCount, value);
+        }
+
+        #endregion
+
         public IEnumerable<Student> TestStudents =>
             Enumerable.Range(1, App.IsDesignMode ? 10 : 100_000)
                 .Select(i => new Student
