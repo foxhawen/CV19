@@ -133,16 +133,30 @@ namespace CV19.ViewModels
 
         #endregion
 
-        #region FueCount : double - Колличество непонятно чего
+        #region FuelCount : double - Колличество непонятно чего
 
         /// <summary>Колличество непонятно чего</summary>
-        private double _FueCount;
+        private double _FuelCount;
 
         /// <summary>Колличество непонятно чего</summary>
-        public double FueCount
+        public double FuelCount
         {
-            get => _FueCount;
-            set => Set(ref _FueCount, value);
+            get => _FuelCount;
+            set => Set(ref _FuelCount, value);
+        }
+
+        #endregion
+
+        #region Coefficient : double - Коэффициент
+
+        /// <summary>Коэффициент</summary>
+        private double _Coefficient = 1;
+
+        /// <summary>Коэффициент</summary>
+        public double Coefficient
+        {
+            get => _Coefficient;
+            set => Set(ref _Coefficient, value);
         }
 
         #endregion
