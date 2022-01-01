@@ -24,7 +24,7 @@ namespace CV19.ViewModels
 
         public CountriesStatisticViewModel CountriesStatistic { get; }
 
-        
+
         #region StudentFilterText : string - Текст фильтра студентов
 
         /// <summary>Текст фильтра студентов</summary>
@@ -36,7 +36,7 @@ namespace CV19.ViewModels
             get => _StudentFilterText;
             set
             {
-                if(!Set(ref _StudentFilterText, value)) return;
+                if (!Set(ref _StudentFilterText, value)) return;
                 _SelectedGroupStudents.View.Refresh();
             }
         }
@@ -55,7 +55,7 @@ namespace CV19.ViewModels
                 return;
             }
             var filter_text = _StudentFilterText;
-            if(string.IsNullOrWhiteSpace(filter_text))
+            if (string.IsNullOrWhiteSpace(filter_text))
                 return;
 
             if (student.Name is null || student.Surname is null || student.Patronymic is null)
@@ -64,7 +64,7 @@ namespace CV19.ViewModels
                 return;
             }
 
-            if(student.Name.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Name.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
             if (student.Surname.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
             if (student.Patronymic.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
 
@@ -144,6 +144,20 @@ namespace CV19.ViewModels
                     Surname = $"Фамилия {i}"
                 });
 
+        #region DataValue : string - Результат длительной асинхронной операции
+
+        /// <summary>Результат длительной асинхронной операции</summary>
+        private string _DataValue;
+
+        /// <summary>Результат длительной асинхронной операции</summary>
+        public string DataValue
+        {
+            get => _DataValue;
+            private set => Set(ref _DataValue, value);
+        }
+
+        #endregion
+
         /*-------------------------------------------------------------------------------------------------------------*/
 
         #region Команды
@@ -175,6 +189,38 @@ namespace CV19.ViewModels
 
         #endregion
 
+        #region Command StartProcessCommand - Запуск процесса
+
+        /// <summary>Запуск процесса</summary>
+        public ICommand StartProcessCommand { get; }
+
+        /// <summary>Проверка возможности выполнения - Запуск процесса</summary>
+        private static bool CanStartProcessCommandExecute(object p) => true;
+
+        /// <summary>Логика выполнения - Запуск процесса</summary>
+        private void OnStartProcessCommandExecuted(object p)
+        {
+            DataValue = _AsyncData.GetResult(DateTime.Now);
+        }
+
+        #endregion
+
+        #region Command StopProcessCommand  - Остановка процесса
+
+        /// <summary>Остановка процесса</summary>
+        public ICommand StopProcessCommand { get; }
+
+        /// <summary>Проверка возможности выполнения - Остановка процесса</summary>
+        private static bool CanStopProcessCommandExcute(object p) => true;
+
+        /// <summary>Логика выполнения - Остановка процесса</summary>
+        private void OnStopProcessCommandExecuted(object p)
+        {
+
+        }
+
+        #endregion
+
         #endregion
 
         /*-------------------------------------------------------------------------------------------------------------*/
@@ -188,11 +234,11 @@ namespace CV19.ViewModels
 
             #region Команды
 
-            CloseAplicationCommand =
-                new LambdaCommand(OnCloseAplicationCommandExecuted, CanCloseAplicationCommandExecute);
+            CloseAplicationCommand = new LambdaCommand(OnCloseAplicationCommandExecuted, CanCloseAplicationCommandExecute);
+            ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
 
-            ChangeTabIndexCommand =
-                new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
+            StartProcessCommand = new LambdaCommand(OnStartProcessCommandExecuted, CanStartProcessCommandExecute);
+            StopProcessCommand = new LambdaCommand(OnStopProcessCommandExecuted, CanStopProcessCommandExcute);
 
             #endregion
 
@@ -209,7 +255,7 @@ namespace CV19.ViewModels
 
         }
 
-        
+
         /*-------------------------------------------------------------------------------------------------------------*/
     }
 }
