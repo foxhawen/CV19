@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -199,6 +200,11 @@ namespace CV19.ViewModels
 
         /// <summary>Логика выполнения - Запуск процесса</summary>
         private void OnStartProcessCommandExecuted(object p)
+        {
+            new Thread(ComputeValue).Start();
+        }
+
+        private void ComputeValue()
         {
             DataValue = _AsyncData.GetResult(DateTime.Now);
         }
