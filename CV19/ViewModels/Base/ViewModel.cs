@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Markup;
+using System.Windows.Threading;
 using System.Xaml;
 
 namespace CV19.ViewModels.Base
@@ -10,16 +11,29 @@ namespace CV19.ViewModels.Base
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName]string PropertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            var handlers = PropertyChanged;
+            if (handlers is null) return;
+
+            var invocation_list = handlers.GetInvocationList();
+
+            var arg = new PropertyChangedEventArgs(PropertyName);
+            foreach (var action in invocation_list)
+            {
+                if (action.Target is DispatcherObject disp_object)
+                    disp_object.Dispatcher.Invoke(action, this, arg);
+                else
+                    action.DynamicInvoke(this, arg);
+            }
         }
 
-        protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string PeopsertName = null)
+        protected virtual bool Set<T>(ref T field, T value, [CallerMemberName] string ProperytName = null)
         {
             if (Equals(field, value)) return false;
             field = value;
-            OnPropertyChanged(PeopsertName);
+            OnPropertyChanged(ProperytName);
             return true;
         }
 
@@ -29,7 +43,7 @@ namespace CV19.ViewModels.Base
             var root_object_service = sp.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
 
             OnInitialized(
-                value_target_service?.TargetObject, 
+                value_target_service?.TargetObject,
                 value_target_service?.TargetProperty,
                 root_object_service?.RootObject);
 
