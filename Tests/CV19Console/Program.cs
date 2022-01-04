@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace CV19Console
@@ -112,6 +113,7 @@ namespace CV19Console
             Console.ReadLine();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private static void PrintMethod(string Message, int Count, int Timeout)
         {
             for (var i = 0; i < Count; i++)
