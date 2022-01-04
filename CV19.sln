@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CV19WPFTest", "Tests\CV19WP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CW19WinFormsTest", "Tests\CW19WinFormsTest\CW19WinFormsTest.csproj", "{0E611FF0-D1DE-4CD7-8B41-BC31A8EE63B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CV19Web", "CV19Web\CV19Web.csproj", "{41351787-50F6-48A8-95FF-0A0BB63B9BCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CV19.Web", "CV19Web\CV19.Web.csproj", "{41351787-50F6-48A8-95FF-0A0BB63B9BCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
