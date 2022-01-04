@@ -1,11 +1,14 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace CV19Web
 {
     public class WebServer
     {
+        private event EventHandler<RequestReceiverEventArgs> RequestReceived;
+
         //private TcpListener _Listener = new TcpListener(new IPEndPoint(IPAddress.Any, 8080));
-        private HttpListener _Listene;
+        private HttpListener _Listener;
         private readonly int _Port;
         private bool _Enabled;
         private readonly object _SyncRoot = new object();
@@ -23,12 +26,13 @@ namespace CV19Web
             {
                 if (_Enabled) return;
 
-                _Listene = new HttpListener();
-                _Listene.Prefixes.Add($"http://*:{_Port}");
-                _Listene.Prefixes.Add($"http://+:{_Port}");
+                _Listener = new HttpListener();
+                _Listener.Prefixes.Add($"http://*:{_Port}");
+                _Listener.Prefixes.Add($"http://+:{_Port}");
                 _Enabled = true;
+                ListenAsync();
             }
-            Listen();
+
         }
 
         public void Stop()
@@ -38,15 +42,37 @@ namespace CV19Web
             {
                 if (!_Enabled) return;
 
-                _Listene = null;
+                _Listener = null;
                 _Enabled = false;
             }
         }
 
-        private void Listen()
+        private async void ListenAsync()
         {
+            var listener = _Listener;
 
+            listener.Start();
+
+            while (_Enabled)
+            {
+                var context = await listener.GetContextAsync().ConfigureAwait(false);
+                ProcessRequest(context);
+            }
+
+
+            listener.Stop();
         }
 
+        private void ProcessRequest(HttpListenerContext context)
+        {
+            RequestReceived?.Invoke(this, new RequestReceiverEventArgs(context));
+        }
+    }
+
+    public class RequestReceiverEventArgs : EventArgs
+    {
+        public HttpListenerContext Context { get; }
+        public RequestReceiverEventArgs(HttpListenerContext context) => Context = context;
+        
     }
 }
