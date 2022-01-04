@@ -1,22 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace CV19Console
 {
     class Program
     {
+        private static bool _ThreadUpdate = true;
+
         static void Main(string[] args)
         {
-            Thread.CurrentThread.Name = "Main theread";
+            //Thread.CurrentThread.Name = "Main theread";
 
-            //var thread = new Thread(ThreadMetod);
-            //thread.Name = "other thread";
-            //thread.IsBackground = true;
-            //thread.Priority = ThreadPriority.AboveNormal;
+            //var clock_thread = new Thread(ThreadMetod);
+            //clock_thread.Name = "other thread";
+            //clock_thread.IsBackground = true;
+            //clock_thread.Priority = ThreadPriority.AboveNormal;
 
-            //thread.Start(42);
+            //clock_thread.Start(42);
 
             //var count = 5;
             //var msg = "Hello World!";
@@ -32,36 +36,78 @@ namespace CV19Console
             //    Console.WriteLine(i);
             //}
 
-            var values = new List<int>();
+            //var values = new List<int>();
 
-            var threads = new Thread[10];
-            object lock_object = new object();
-            for (var i = 0; i < threads.Length; i++)
-                threads[i] = new Thread(() =>
+            //var threads = new Thread[10];
+            //object lock_object = new object();
+            //for (var i = 0; i < threads.Length; i++)
+            //    threads[i] = new Thread(() =>
+            //    {
+            //        for (var j = 0; j < 10; j++)
+            //        {
+            //            lock (lock_object)
+            //                values.Add(Thread.CurrentThread.ManagedThreadId);
+            //            Thread.Sleep(1);
+            //        }
+            //    });
+
+            //Monitor.Enter(lock_object);
+            //try
+            //{
+
+            //}
+            //finally
+            //{
+            //    Monitor.Exit(lock_object);
+            //}
+
+            //foreach (var thread in threads)
+            //    thread.Start();
+
+            //if (!clock_thread.Join(100))
+            //{
+            //    //clock_thread.Abort();    //Прерывает процесс в любой точке его выполнения
+            //    clock_thread.Interrupt();
+            //}
+
+            //Mutex mutex = new Mutex();
+            //Semaphore semaphore = new Semaphore(0, 10);
+            //semaphore.WaitOne();
+
+            // действия в критической секции
+
+            //semaphore.Release();
+
+            ManualResetEvent manual_reset_event = new ManualResetEvent(false);
+            AutoResetEvent auto_reset_event = new AutoResetEvent(false);
+
+            EventWaitHandle thread_guidance = auto_reset_event;
+
+            var test_thread = new Thread[10];
+            for (var i = 0; i < test_thread.Length; i++)
+            {
+                var local_i = i;
+                test_thread[i] = new Thread(() =>
                 {
-                    for (var j = 0; j < 10; j++)
-                    {
-                        lock (lock_object)
-                            values.Add(Thread.CurrentThread.ManagedThreadId);
-                        Thread.Sleep(1);
-                    }
+                    Console.WriteLine("Поток id:{0} - стартовал", Thread.CurrentThread.ManagedThreadId);
+
+                    thread_guidance.WaitOne();
+
+                    Console.WriteLine("Value:{0}", local_i);
+                    Console.WriteLine("Поток id:{0} - завершился", Thread.CurrentThread.ManagedThreadId);
+                    //thread_guidance.Set();
                 });
-            
-            Monitor.Enter(lock_object);
-            try
-            {
-
-            }
-            finally
-            {
-                Monitor.Exit(lock_object);
+                test_thread[i].Start();
             }
 
-            foreach (var thread in threads)
-                thread.Start();
-
+            Console.WriteLine("Готов к запуску потоков");
             Console.ReadLine();
-            Console.WriteLine(string.Join(",", values));
+
+            thread_guidance.Set();
+            thread_guidance.Reset();
+
+            //Console.ReadLine();
+            //Console.WriteLine(string.Join(",", values));
 
             Console.ReadLine();
         }
@@ -82,9 +128,10 @@ namespace CV19Console
 
             CheckThread();
 
-            while (true)
+            while (_ThreadUpdate)
             {
                 Thread.Sleep(100);
+                Thread.SpinWait(1000);
                 Console.Title = DateTime.Now.ToString();
             }
         }
