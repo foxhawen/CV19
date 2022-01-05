@@ -13,9 +13,15 @@
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:system="clr-namespace:System;assembly=System.Runtime.Extensions"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         Title="{Binding Titel}"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Height="450" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding CountriesStatistic.RefreshDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.InputBindings>
         <KeyBinding Modifiers="Control" Key="Q" Command="{Binding CloseAplicationCommand}"/>
     </Window.InputBindings>
@@ -59,7 +65,7 @@
         </StatusBar>
         <TabControl>
             <TabItem Header="Статистика">
-                <view:CountriesStatisticView DataContext="{Binding CountriesStatistic}"/>
+                <view:CountriesStatisticView DataContext="{Binding CountriesStatistic}" Loaded="CountriesStatisticView_Loaded"/>
             </TabItem>
             
             <TabItem Header="Отладка">
