@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,11 +12,53 @@ namespace CV19WPFTest.Behaviors
         private Point _StartPoint;
         private Canvas _Сanvas;
 
+        #region PositionX : double - Горизонтальное смещение
+
+        /// <summary>Горизонтальное смещение</summary>
+        public static readonly DependencyProperty PositionXProperty =
+            DependencyProperty.Register(
+                nameof(PositionX),
+                typeof(double),
+                typeof(DragInCanvas),
+                new PropertyMetadata(default(double)));
+
+        /// <summary>Горизонтальное смещение</summary>
+        //[Category("")]
+        [Description("Горизонтальное смещение")]
+        public double PositionX
+        {
+            get => (double)GetValue(PositionXProperty);
+            set => SetValue(PositionXProperty, value);
+        }
+
+        #endregion
+
+        #region PositionY : double - Вертикальное положение
+
+        /// <summary>Вертикальное положение</summary>
+        public static readonly DependencyProperty PositionYProperty =
+            DependencyProperty.Register(
+                nameof(PositionY),
+                typeof(double),
+                typeof(DragInCanvas),
+                new PropertyMetadata(default(double)));
+
+        /// <summary>Вертикальное положение</summary>
+        //[Category("")]
+        [Description("Вертикальное положение")]
+        public double PositionY
+        {
+            get => (double)GetValue(PositionYProperty);
+            set => SetValue(PositionYProperty, value);
+        }
+
+        #endregion
+
         protected override void OnAttached()
         {
             AssociatedObject.MouseLeftButtonDown += OnButtonDown;
-            AssociatedObject.MouseMove -= OnMouseNove;
-            AssociatedObject.MouseUp -= OnMousUp;
+            AssociatedObject.MouseMove -= OnMouseMove;
+            AssociatedObject.MouseUp -= OnMouseUp;
         }
 
         protected override void OnDetaching()
@@ -40,18 +83,18 @@ namespace CV19WPFTest.Behaviors
 
             _StartPoint = E.GetPosition(AssociatedObject);
             AssociatedObject.CaptureMouse();
-            AssociatedObject.MouseMove += OnMouseNove;
-            AssociatedObject.MouseUp += OnMousUp;
+            AssociatedObject.MouseMove += OnMouseMove;
+            AssociatedObject.MouseUp += OnMouseUp;
         }
 
-        private void OnMousUp(object sender, MouseButtonEventArgs e)
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            AssociatedObject.MouseMove -= OnMouseNove;
-            AssociatedObject.MouseUp -= OnMousUp;
+            AssociatedObject.MouseMove -= OnMouseMove;
+            AssociatedObject.MouseUp -= OnMouseUp;
             AssociatedObject.ReleaseMouseCapture();
         }
 
-        private void OnMouseNove(object sender, MouseEventArgs E)
+        private void OnMouseMove(object sender, MouseEventArgs E)
         {
             var obj = AssociatedObject;
             var current_pos = E.GetPosition(_Сanvas);
@@ -60,6 +103,9 @@ namespace CV19WPFTest.Behaviors
 
             obj.SetValue(Canvas.LeftProperty, delta.X);
             obj.SetValue(Canvas.TopProperty, delta.Y);
+
+            PositionX = delta.X;
+            PositionY = delta.Y;
         }
     }
 }
