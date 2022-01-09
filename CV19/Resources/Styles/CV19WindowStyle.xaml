@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-                    xmlns:b="clr-namespace:CV19.Infrastructure.Bihaviors">
+                    xmlns:b="clr-namespace:CV19.Infrastructure.Behaviors">
 
 
     <Style x:Key="CV19WindowHeaderButtonsStyle" TargetType="{x:Type Button}">
@@ -52,6 +52,9 @@
                   TextOptions.TextFormattingMode="Display">
                 <DockPanel>
                     <Grid Name="PART_TitleBar" DockPanel.Dock="Top" Background="WhiteSmoke">
+                        <i:Interaction.Behaviors>
+                            <b:WindowTitleBarBehavior/>
+                        </i:Interaction.Behaviors>
                         <DockPanel Height="32">
                             <Image Name="PART_Icon" DockPanel.Dock="Left"
                                    Source="{TemplateBinding Icon}"/>

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Microsoft.Xaml.Behaviors;
 
-namespace CV19.Infrastructure.Bihaviors
+namespace CV19.Infrastructure.Behaviors
 {
     class MinimizeWindow : Behavior<Button>
     {

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Xaml.Behaviors;
 
-namespace CV19.Infrastructure.Bihaviors
+namespace CV19.Infrastructure.Behaviors
 {
     class CloseWindow : Behavior<Button>
     {
