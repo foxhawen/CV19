@@ -22,9 +22,33 @@ namespace CV19.Infrastructure.Behaviors
 
         private void OnMouseDown(object sender, MouseButtonEventArgs E)
         {
-            if(E.ClickCount > 1) return;
-            if(!(AssociatedObject.FintVisualRoot() is Window window)) return;
+            switch (E.ClickCount)
+            {
+                case 1:
+                    DragMove();
+                    break;
+                default:
+                    Maximize();
+                    break;
+            }
+           
+        }
+
+        private void DragMove()
+        {
+            if (!(AssociatedObject.FintVisualRoot() is Window window)) return;
             window.DragMove();
+        }
+
+        private void Maximize()
+        {
+            if (!(AssociatedObject.FintVisualRoot() is Window window)) return;
+            window.WindowState = window.WindowState switch
+            {
+                WindowState.Normal => WindowState.Maximized,
+                WindowState.Maximized => WindowState.Normal,
+                _ => window.WindowState
+            };
         }
     }
 }
