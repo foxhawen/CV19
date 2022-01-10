@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CV19.Infrastructure.Extensions;
@@ -19,7 +16,6 @@ namespace CV19.Infrastructure.Behaviors
         protected override void OnDetaching()
         {
             AssociatedObject.MouseLeftButtonDown -= OnMouseDown;
-
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs E)
@@ -32,7 +28,6 @@ namespace CV19.Infrastructure.Behaviors
                 window.Close();
             else
                 window.SendMessage(WM.SYSCOMMAND, SC.KEYMENU);
-
         }
     }
 }
