@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Input;
+using CV19.Infrastructure.Commands;
 using CV19.Models.Decanat;
 using CV19.Services.Students;
 using CV19.ViewModels.Base;
@@ -53,6 +55,47 @@ namespace CV19.ViewModels
             get => _SelectedStudent;
             set => Set(ref _SelectedStudent, value);
         }
+
+        #endregion
+
+        #region Команды
+
+
+        #region EditStudentCommand - Команда редактирования студента
+
+        private ICommand _EditStudentCommand;
+
+        /// <summary>Команда редактирования студента</summary>
+        public ICommand EditStudentCommand => _EditStudentCommand ??= new LambdaCommand(OnEditStudentCommandExecutes, CanEditStudentCommandExecute);
+
+        private static bool CanEditStudentCommandExecute(object p) => p is Student;
+
+        private void OnEditStudentCommandExecutes(object p)
+        {
+            var student = (Student)p;
+        }
+
+        #endregion
+
+        #region Command CreateNewStudentCommand - Создание нового студента
+
+        /// <summary>Создание нового студента</summary>
+        private ICommand _CreateNewStudentCommand;
+
+        /// <summary>Создание нового студента</summary>
+        public ICommand CreateNewStudentCommand => _CreateNewStudentCommand
+            ??= new LambdaCommand(OnCreateNewStudentCommandExecuted, CanCreateNewStudentCommandExecute);
+
+        /// <summary>Проверка возможности выполнения - Создание нового студента</summary>
+        private static bool CanCreateNewStudentCommandExecute(object p) => p is Group;
+
+        /// <summary>Логика выполнения - Создание нового студента</summary>
+        public void OnCreateNewStudentCommandExecuted(object p)
+        {
+            var group = (Group)p;
+        }
+
+        #endregion
 
         #endregion
 
