@@ -15,11 +15,25 @@
   </ItemGroup>
 
   <ItemGroup>
+	  <None Remove="Resources\WindowIcon.ico" />
+	  <None Remove="Resources\WindowIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FontAwesome5" Version="2.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.5" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
     <PackageReference Include="XAML.MapControl" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CV19Web\CV19.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\WindowIcon.ico" />
+    <Resource Include="Resources\WindowIcon.png" />
   </ItemGroup>
 
   <ItemGroup>

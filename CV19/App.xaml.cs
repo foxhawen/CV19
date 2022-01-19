@@ -1,18 +1,18 @@
-﻿ using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using CV19.Services;
- using CV19.Services.Interfaces;
- using CV19.ViewModels;
+using CV19.Services.Interfaces;
+using CV19.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace CV19
 {
-    public partial class App 
+    public partial class App
     {
         public static bool IsDesignMode { get; private set; } = true;
 
@@ -39,17 +39,11 @@ namespace CV19
             _Host = null;
         }
 
-        public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
-        { 
-            services.AddSingleton<IDataService, DataService>();
-            //services.AddTransient<IDataService, DataService>();
-            //services.AddScoped<IDataService, DataService>();
+        public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
+                .RegisterServices()
+                .RegisterViewModels();
 
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<CountriesStatisticViewModel>();
-        }
-
-        public static string CurrentDirectory => IsDesignMode 
+        public static string CurrentDirectory => IsDesignMode
             ? Path.GetDirectoryName(GetSourceCodePath())
             : Environment.CurrentDirectory;
 
