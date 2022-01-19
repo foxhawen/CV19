@@ -8,13 +8,18 @@ namespace CV19.Views.Windows
     {
         #region FirstName
 
-        private static DependencyProperty FirstNameProperty = DependencyProperty.Register(
-            nameof(FirstName),
-            typeof(string),
-            typeof(StudentsManagementWindow),
-            new PropertyMetadata(null));
+        public static readonly DependencyProperty FirstNameProperty =
+            DependencyProperty.Register(
+                nameof(FirstName),
+                typeof(string),
+                typeof(StudentEditorWindow),
+                new PropertyMetadata(null));
 
-        public string FirstName { get; set; }
+        public string FirstName
+        {
+            get => (string)GetValue(FirstNameProperty);
+            set => SetValue(FirstNameProperty, value);
+        }
 
         #endregion
 
@@ -25,7 +30,7 @@ namespace CV19.Views.Windows
             DependencyProperty.Register(
                 nameof(LastName),
                 typeof(string),
-                typeof(StudentsManagementWindow),
+                typeof(StudentEditorWindow),
                 new PropertyMetadata(default(string)));
 
         /// <summary>Фамилия</summary>
@@ -46,7 +51,7 @@ namespace CV19.Views.Windows
             DependencyProperty.Register(
                 nameof(Patronymic),
                 typeof(string),
-                typeof(StudentsManagementWindow),
+                typeof(StudentEditorWindow),
                 new PropertyMetadata(default(string)));
 
         /// <summary>Отчество</summary>
@@ -67,7 +72,7 @@ namespace CV19.Views.Windows
             DependencyProperty.Register(
                 nameof(Rating),
                 typeof(double),
-                typeof(StudentsManagementWindow),
+                typeof(StudentEditorWindow),
                 new PropertyMetadata(default(double)));
 
         /// <summary>Оценка</summary>
@@ -88,7 +93,7 @@ namespace CV19.Views.Windows
             DependencyProperty.Register(
                 nameof(Birthday),
                 typeof(DateTime),
-                typeof(StudentsManagementWindow),
+                typeof(StudentEditorWindow),
                 new PropertyMetadata(default(DateTime)));
 
         /// <summary>Дата рождения</summary>
